@@ -1,7 +1,16 @@
-import { Text, TextProps } from "react-native";
+import { TextProps } from "react-native";
+import { colors } from "../../../colors";
+import Animated, { AnimateProps } from "react-native-reanimated";
 
-export const CustomText = ({ children, style, ...rest }: TextProps) => (
-  <Text {...rest} style={[style, { fontFamily: "Futura" }]}>
+export const CustomText = ({
+  children,
+  style,
+  ...rest
+}: AnimateProps<TextProps>) => (
+  <Animated.Text
+    {...rest}
+    style={[{ fontFamily: "Futura", color: colors.primary }, style]}
+  >
     {children}
-  </Text>
+  </Animated.Text>
 );

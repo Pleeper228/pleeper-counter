@@ -2,6 +2,8 @@ import React, { useCallback } from "react";
 import { FourPlayer, TwoPlayer } from "./layouts";
 import { useSelector } from "react-redux";
 import { selectNumberOfPlayers } from "../../reducers";
+import { View } from "react-native";
+import { colors } from "../../../colors";
 
 export const Main = () => {
   const numberOfPlayers = useSelector(selectNumberOfPlayers);
@@ -16,5 +18,9 @@ export const Main = () => {
     }
   }, [numberOfPlayers]);
 
-  return renderMain();
+  return (
+    <View style={{ flex: 1, backgroundColor: colors.secondary }}>
+      {renderMain()}
+    </View>
+  );
 };

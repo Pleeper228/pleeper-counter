@@ -1,8 +1,9 @@
 import React, { useCallback } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import { setNumberOfPlayers } from "../../reducers";
-import { CustomText, MenuButton } from "../../components";
+import { CustomText, CustomView, MenuButton } from "../../components";
+import { SlideInRight, SlideOutLeft } from "react-native-reanimated";
 
 interface NumberOfPlayersProps {
   onScreenForward: () => void;
@@ -20,7 +21,9 @@ export const NumberOfPlayers = ({ onScreenForward }: NumberOfPlayersProps) => {
   );
 
   return (
-    <View
+    <CustomView
+      entering={SlideInRight.duration(400)}
+      exiting={SlideOutLeft.duration(400)}
       style={{
         flex: 1,
         alignItems: "center",
@@ -42,6 +45,6 @@ export const NumberOfPlayers = ({ onScreenForward }: NumberOfPlayersProps) => {
         <MenuButton label="2" onPress={handlePress(2)} />
         <MenuButton label="4" onPress={handlePress(4)} />
       </View>
-    </View>
+    </CustomView>
   );
 };

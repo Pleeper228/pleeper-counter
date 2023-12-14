@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { GestureResponderEvent } from "react-native";
-import { PressableButton } from "../PressableButton";
+import { CustomPressable } from "../CustomPressable";
+import { CustomText } from "../CustomText";
+import { colors } from "../../../colors";
 
 interface MenuButtonProps {
   onPress: (e: GestureResponderEvent) => void;
@@ -9,25 +11,19 @@ interface MenuButtonProps {
 
 export const MenuButton = ({ label, onPress }: MenuButtonProps) => {
   return (
-    <PressableButton
-      pressableProps={{
-        onPress,
-        style: ({ pressed }) => [
-          {
-            opacity: pressed ? 0.8 : 1,
-            backgroundColor: "#2277ee",
-          },
-          {
-            padding: 16,
-            marginBottom: 16,
-            borderRadius: 8,
-          },
-        ],
+    <CustomPressable
+      onPress={onPress}
+      style={{
+        borderRadius: 8,
+        borderWidth: 2,
+        borderColor: colors.secondary,
+        height: 96,
+        width: 96,
       }}
-      textProps={{
-        children: label,
-        style: { color: "white", fontSize: 48 },
-      }}
-    />
+    >
+      <CustomText style={{ color: colors.secondary, fontSize: 40 }}>
+        {label}
+      </CustomText>
+    </CustomPressable>
   );
 };

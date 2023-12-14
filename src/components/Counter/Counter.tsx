@@ -1,12 +1,14 @@
 import { debounce } from "lodash";
 import React, { useCallback, useState } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { View, ColorValue, FlexStyle, RotateTransform } from "react-native";
 import { useSelector } from "react-redux";
 import { selectStartingLife } from "../../reducers";
 import { CustomText } from "../CustomText";
 import { CounterButton } from "./CounterButton";
+import { colors } from "../../../colors";
 
-const fontSize = 48;
+const fontSize = 40;
 
 type Orientation = "up" | "down" | "left" | "right";
 
@@ -70,8 +72,6 @@ export const Counter = ({ backgroundColor, orientation }: CounterProps) => {
       style={{
         flex: 1,
         width: "100%",
-        borderRadius: 50,
-        overflow: "hidden",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: getFlexDirection(orientation),
@@ -84,16 +84,23 @@ export const Counter = ({ backgroundColor, orientation }: CounterProps) => {
         onCount={handleUpCounter}
         rotate={getRotation(orientation)}
       />
-      <View style={{ position: "absolute", zIndex: 1 }}>
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          transform: [{ rotate: getRotation(orientation) }],
+          alignItems: "center",
+        }}
+      >
         <CustomText
           style={{
             fontSize,
             color: "white",
-            transform: [{ rotate: getRotation(orientation) }],
           }}
         >
           {count}
         </CustomText>
+        <Ionicons name="heart" size={24} color="white" />
       </View>
       <CounterButton
         backgroundColor={backgroundColor}

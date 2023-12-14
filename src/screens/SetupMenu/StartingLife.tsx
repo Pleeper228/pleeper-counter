@@ -1,8 +1,9 @@
 import React, { useCallback } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { useDispatch } from "react-redux";
 import { setStartingLife } from "../../reducers";
-import { CustomText, MenuButton } from "../../components";
+import { CustomText, CustomView, MenuButton } from "../../components";
+import { SlideOutLeft, SlideInRight } from "react-native-reanimated";
 
 interface StartingLifeProps {
   onScreenForward: () => void;
@@ -20,7 +21,9 @@ export const StartingLife = ({ onScreenForward }: StartingLifeProps) => {
   );
 
   return (
-    <View
+    <CustomView
+      entering={SlideInRight.duration(400)}
+      exiting={SlideOutLeft.duration(400)}
       style={{
         flex: 1,
         alignItems: "center",
@@ -43,6 +46,6 @@ export const StartingLife = ({ onScreenForward }: StartingLifeProps) => {
         <MenuButton label="30" onPress={handlePress(30)} />
         <MenuButton label="40" onPress={handlePress(40)} />
       </View>
-    </View>
+    </CustomView>
   );
 };

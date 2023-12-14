@@ -1,7 +1,10 @@
-import { View, Pressable, RotateTransform } from "react-native";
+import { RotateTransform, View } from "react-native";
 import type { CounterProps } from "./Counter";
 import { CustomText } from "../CustomText";
 import { useMemo } from "react";
+import { colors } from "../../../colors";
+import { CustomPressable } from "../CustomPressable";
+import { FadeIn, FadeOut } from "react-native-reanimated";
 
 interface CounterButtonProps extends Pick<CounterProps, "backgroundColor"> {
   top?: boolean;
@@ -25,13 +28,13 @@ export const CounterButton = ({
   );
 
   return (
-    <Pressable
+    <CustomPressable
+      onPressOut={onCount}
       style={{
         flex: 1,
         width: "100%",
         backgroundColor,
       }}
-      onPressOut={onCount}
     >
       <View
         style={{
@@ -43,9 +46,12 @@ export const CounterButton = ({
       >
         {showDelta && (
           <CustomText
+            entering={FadeIn.duration(100)}
+            exiting={FadeOut.duration(200)}
             style={{
               fontSize: 16,
               transform: [{ rotate }],
+              color: colors.secondary,
             }}
           >
             {Math.abs(delta) === delta ? "+" : "-"}
@@ -53,6 +59,6 @@ export const CounterButton = ({
           </CustomText>
         )}
       </View>
-    </Pressable>
+    </CustomPressable>
   );
 };
