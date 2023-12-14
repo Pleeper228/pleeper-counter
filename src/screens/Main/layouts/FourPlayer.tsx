@@ -6,8 +6,8 @@ export const FourPlayer = () => (
   <View
     style={{
       flex: 1,
-      padding: 10,
-      gap: 10,
+      padding: 8,
+      gap: 8,
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
@@ -16,7 +16,7 @@ export const FourPlayer = () => (
     <View
       style={{
         flex: 1,
-        gap: 10,
+        gap: 8,
       }}
     >
       <Counter orientation="left" backgroundColor="blue" />
@@ -25,7 +25,7 @@ export const FourPlayer = () => (
     <View
       style={{
         flex: 1,
-        gap: 10,
+        gap: 8,
       }}
     >
       <Counter orientation="right" backgroundColor="black" />

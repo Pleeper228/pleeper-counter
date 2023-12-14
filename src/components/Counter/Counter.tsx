@@ -1,20 +1,16 @@
-import React, { useState } from "react";
-import {
-  View,
-  Pressable,
-  ColorValue,
-  FlexStyle,
-  RotateTransform,
-} from "react-native";
+import { debounce } from "lodash";
+import React, { useCallback, useState } from "react";
+import { View, ColorValue, FlexStyle, RotateTransform } from "react-native";
 import { useSelector } from "react-redux";
 import { selectStartingLife } from "../../reducers";
 import { CustomText } from "../CustomText";
+import { CounterButton } from "./CounterButton";
 
-const fontSize = 50;
+const fontSize = 48;
 
 type Orientation = "up" | "down" | "left" | "right";
 
-interface CounterProps {
+export interface CounterProps {
   orientation: Orientation;
   backgroundColor: ColorValue;
 }
@@ -25,8 +21,9 @@ const getFlexDirection = (
   switch (orientation) {
     default:
     case "down":
-    case "up":
       return;
+    case "up":
+      return "column-reverse";
     case "left":
       return "row-reverse";
     case "right":
@@ -49,9 +46,24 @@ const getRotation = (orientation: Orientation): RotateTransform["rotate"] => {
 
 export const Counter = ({ backgroundColor, orientation }: CounterProps) => {
   const startingLife = useSelector(selectStartingLife);
+  const [delta, setDelta] = useState(0);
   const [count, setCount] = useState(startingLife);
-  const handleUpCounter = () => setCount(count + 1);
-  const handleDownCounter = () => setCount(count - 1);
+
+  const resetDelta = useCallback(
+    debounce(() => setDelta(0), 1000),
+    []
+  );
+
+  const handleUpCounter = useCallback(() => {
+    setDelta(delta + 1);
+    setCount(count + 1);
+    resetDelta();
+  }, [delta, count, resetDelta]);
+  const handleDownCounter = useCallback(() => {
+    setDelta(delta - 1);
+    setCount(count - 1);
+    resetDelta();
+  }, [delta, count, resetDelta]);
 
   return (
     <View
@@ -65,20 +77,14 @@ export const Counter = ({ backgroundColor, orientation }: CounterProps) => {
         flexDirection: getFlexDirection(orientation),
       }}
     >
-      <Pressable
-        style={{
-          height: "100%",
-          width: "100%",
-          backgroundColor,
-        }}
-        onPressOut={orientation === "up" ? handleDownCounter : handleUpCounter}
-      ></Pressable>
-      <View
-        style={{
-          position: "absolute",
-          zIndex: 1,
-        }}
-      >
+      <CounterButton
+        top
+        backgroundColor={backgroundColor}
+        delta={delta}
+        onCount={handleUpCounter}
+        rotate={getRotation(orientation)}
+      />
+      <View style={{ position: "absolute", zIndex: 1 }}>
         <CustomText
           style={{
             fontSize,
@@ -89,14 +95,12 @@ export const Counter = ({ backgroundColor, orientation }: CounterProps) => {
           {count}
         </CustomText>
       </View>
-      <Pressable
-        style={{
-          height: "100%",
-          width: "100%",
-          backgroundColor,
-        }}
-        onPressOut={orientation === "up" ? handleUpCounter : handleDownCounter}
-      ></Pressable>
+      <CounterButton
+        backgroundColor={backgroundColor}
+        delta={delta}
+        onCount={handleDownCounter}
+        rotate={getRotation(orientation)}
+      />
     </View>
   );
 };

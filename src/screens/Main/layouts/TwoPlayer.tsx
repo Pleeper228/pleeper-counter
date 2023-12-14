@@ -6,8 +6,8 @@ export const TwoPlayer = () => (
   <View
     style={{
       flex: 1,
-      padding: 10,
-      gap: 10,
+      padding: 8,
+      gap: 8,
       justifyContent: "center",
       alignItems: "center",
     }}
