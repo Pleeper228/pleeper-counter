@@ -3,9 +3,10 @@ import React, { useCallback, useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { View, ColorValue, FlexStyle, RotateTransform } from "react-native";
 import { useSelector } from "react-redux";
-import { selectStartingLife } from "../../reducers";
+import { selectCounts, setCount } from "../../reducers";
 import { CustomText } from "../CustomText";
 import { CounterButton } from "./CounterButton";
+import { useDispatch } from "react-redux";
 import { colors } from "../../../colors";
 
 const fontSize = 40;
@@ -13,6 +14,7 @@ const fontSize = 40;
 type Orientation = "up" | "down" | "left" | "right";
 
 export interface CounterProps {
+  playerIndex: number;
   orientation: Orientation;
   backgroundColor: ColorValue;
 }
@@ -46,10 +48,14 @@ const getRotation = (orientation: Orientation): RotateTransform["rotate"] => {
   }
 };
 
-export const Counter = ({ backgroundColor, orientation }: CounterProps) => {
-  const startingLife = useSelector(selectStartingLife);
+export const Counter = ({
+  playerIndex,
+  backgroundColor,
+  orientation,
+}: CounterProps) => {
+  const dispatch = useDispatch();
+  const count = useSelector(selectCounts)[playerIndex];
   const [delta, setDelta] = useState(0);
-  const [count, setCount] = useState(startingLife);
 
   const resetDelta = useCallback(
     debounce(() => setDelta(0), 1000),
@@ -58,12 +64,12 @@ export const Counter = ({ backgroundColor, orientation }: CounterProps) => {
 
   const handleUpCounter = useCallback(() => {
     setDelta(delta + 1);
-    setCount(count + 1);
+    dispatch(setCount({ playerIndex, count: count + 1 }));
     resetDelta();
   }, [delta, count, resetDelta]);
   const handleDownCounter = useCallback(() => {
     setDelta(delta - 1);
-    setCount(count - 1);
+    dispatch(setCount({ playerIndex, count: count - 1 }));
     resetDelta();
   }, [delta, count, resetDelta]);
 
@@ -95,12 +101,12 @@ export const Counter = ({ backgroundColor, orientation }: CounterProps) => {
         <CustomText
           style={{
             fontSize,
-            color: "white",
+            color: colors.secondary,
           }}
         >
           {count}
         </CustomText>
-        <Ionicons name="heart" size={24} color="white" />
+        <Ionicons name="heart" size={24} color={colors.secondary} />
       </View>
       <CounterButton
         backgroundColor={backgroundColor}

@@ -1,1 +1,1 @@
-export * from "./menu.reducer";
+export * from "./counter.reducer";

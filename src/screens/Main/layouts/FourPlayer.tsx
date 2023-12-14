@@ -23,8 +23,16 @@ export const FourPlayer = () => (
         overflow: "hidden",
       }}
     >
-      <Counter orientation="left" backgroundColor={colors.palette[1]} />
-      <Counter orientation="left" backgroundColor={colors.palette[2]} />
+      <Counter
+        playerIndex={0}
+        orientation="left"
+        backgroundColor={colors.palette[1]}
+      />
+      <Counter
+        playerIndex={1}
+        orientation="left"
+        backgroundColor={colors.palette[2]}
+      />
     </View>
     <View
       style={{
@@ -35,8 +43,16 @@ export const FourPlayer = () => (
         overflow: "hidden",
       }}
     >
-      <Counter orientation="right" backgroundColor={colors.palette[4]} />
-      <Counter orientation="right" backgroundColor={colors.palette[5]} />
+      <Counter
+        playerIndex={2}
+        orientation="right"
+        backgroundColor={colors.palette[4]}
+      />
+      <Counter
+        playerIndex={3}
+        orientation="right"
+        backgroundColor={colors.palette[5]}
+      />
     </View>
     <CenterButton />
   </View>

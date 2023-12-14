@@ -5,15 +5,17 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParams } from "../../../App";
 import { useDispatch } from "react-redux";
-import { reset } from "../../reducers";
+import { exit, reset, selectNumberOfPlayers } from "../../reducers";
 import { colors } from "../../../colors";
 import { CustomText } from "../CustomText";
 import { CustomPressable } from "../CustomPressable";
+import { useSelector } from "react-redux";
 
 export const CenterButton = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const dispatch = useDispatch();
+  const numberOfPlayers = useSelector(selectNumberOfPlayers);
   const [showMenu, setShowMenu] = useState(false);
 
   const handleOpenMenu = useCallback(() => {
@@ -22,8 +24,13 @@ export const CenterButton = () => {
   const handleCloseMenu = useCallback(() => {
     setShowMenu(false);
   }, []);
+  const handleReset = useCallback(() => {
+    Array.from({ length: numberOfPlayers }).forEach((_, i) => {
+      dispatch(reset(i));
+    });
+  }, [numberOfPlayers]);
   const handleExit = useCallback(() => {
-    dispatch(reset());
+    dispatch(exit());
     navigation.navigate("Splash");
   }, [dispatch, navigation]);
 
@@ -79,7 +86,7 @@ export const CenterButton = () => {
               MAIN MENU
             </CustomText>
             <CustomPressable
-              onPress={handleExit}
+              onPress={handleReset}
               style={{ borderRadius: 8, width: 200 }}
             >
               <CustomText

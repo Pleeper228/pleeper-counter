@@ -22,7 +22,11 @@ export const TwoPlayer = () => (
         overflow: "hidden",
       }}
     >
-      <Counter orientation="up" backgroundColor={colors.palette[1]} />
+      <Counter
+        playerIndex={0}
+        orientation="up"
+        backgroundColor={colors.palette[1]}
+      />
     </View>
     <View
       style={{
@@ -33,7 +37,11 @@ export const TwoPlayer = () => (
         overflow: "hidden",
       }}
     >
-      <Counter orientation="down" backgroundColor={colors.palette[4]} />
+      <Counter
+        playerIndex={1}
+        orientation="down"
+        backgroundColor={colors.palette[4]}
+      />
     </View>
     <CenterButton />
   </View>
